@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: spring-boot-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+  - name: spring-boot-app
+    rules:
+    - alert: HighCPUUsage
+      expr: avg_over_time(system_cpu_usage[5m]) > 0.8
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High CPU Usage Detected"
+        description: "CPU usage has been above 80% for the last 5 minutes."
+
+    - alert: HighMemoryUsage
+      expr: (jvm_memory_used_bytes{area="heap",service="bet-service"} / jvm_memory_max_bytes{area="heap",service="bet-service"}) > 0.9
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High Memory Usage"
+        description: "JVM heap usage is above 90%."
+
+    - alert: SlowResponse
+      expr: histogram_quantile(0.95, rate(http_server_requests_seconds_bucket{service="bet-service"}[5m])) > 2
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Slow HTTP Response"
+        description: "95th percentile response time exceeds 2 seconds."
