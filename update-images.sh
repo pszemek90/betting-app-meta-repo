@@ -11,7 +11,7 @@ if [ -n "$1" ]; then
     IFS=',' read -r -a SERVICES <<< "$1"
 else
     # If no argument is provided, get all subdirectories
-    SERVICES=($(find . -maxdepth 1 -type d -not -path '.' -exec basename {} \;))
+    mapfile -t SERVICES < <(find . -maxdepth 1 -type d -not -path '.' -exec basename {} \;)
 fi
 
 # Loop through the specified services
