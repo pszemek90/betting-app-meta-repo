@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: api-gateway
+    type: betting-app
   name: api-gateway
 spec:
   ports:
@@ -13,6 +14,6 @@ spec:
     targetPort: 8080
   selector:
     app: api-gateway
-  type: LoadBalancer
+  type: ClusterIP
 status:
   loadBalancer: {}

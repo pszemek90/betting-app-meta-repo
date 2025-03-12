@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: bet-service
+    type: betting-app
   name: bet-service
 spec:
   ports:
