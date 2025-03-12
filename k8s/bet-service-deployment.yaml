@@ -20,5 +20,8 @@ spec:
       containers:
       - image: localhost:5000/betting-app/bet-service
         name: bet-service
-        resources: {}
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: 1
 status: {}
